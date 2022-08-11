@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+body {
+    background: #bbb;
+}
+
+.cursor {
+    width: 100px;
+    height: 100px;
+    border: 2px dotted black;
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+
+    pointer-events: none;
+    transition: all 200ms ease;
+    transition-property: opacity, background, border, transform;
+    z-index: 999;
+
+    animation: rotate 10s linear infinite;
+}
+
+.cursor.hidden {
+    opacity: 0;
+}
+
+@keyframes rotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
