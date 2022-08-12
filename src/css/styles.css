@@ -6,14 +6,18 @@
 }
 
 body {
-    background: #bbb;
+    background: linear-gradient(to left, purple, pink);
+    height: 100vh;
 }
 
-.cursor {
+.cursor,
+.marker {
     width: 100px;
     height: 100px;
     border: 2px dotted black;
     border-radius: 50%;
+
+    overflow: hidden;
 
     top: 50%;
     left: 50%;
@@ -30,6 +34,17 @@ body {
 
 .cursor.hidden {
     opacity: 0;
+}
+
+.marker {
+    animation: none;
+    border: 5px dotted gray;
+    transition: none;
+    display: none;
+}
+
+.marker.active {
+    display: block;
 }
 
 @keyframes rotate {
