@@ -74,12 +74,21 @@ body {
     pointer-events: all;
 }
 
-.character_option {
+.option {
     padding: 5px;
     font-weight: bold;
+    font-size: 1rem;
+    transition: font-size 700ms ease-in-out, padding 700ms ease-in-out;
+
+    cursor: pointer;
 }
 
-.character_option:not(:last-child) {
+.option:hover {
+    padding: 2px;
+    font-size: 1.3rem;
+}
+
+.option:not(:last-child) {
     border-bottom: 2px solid blue;
     padding: 5px;
 }

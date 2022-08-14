@@ -79,6 +79,10 @@ const Dropdown: FC<Props> = ({ stage }) => {
     let is_visible = false;
 
     const on_select_click = (e: MouseEvent): void => {
+        const target = e.target as HTMLDivElement;
+
+        if (target === options.current) return;
+
         const coordinates = decide_position(e);
 
         if (!is_visible) {
@@ -106,13 +110,13 @@ const Dropdown: FC<Props> = ({ stage }) => {
             style={{ left: position.x, top: position.y }}
             ref={options}
         >
-            <div data-value="option1" className="character_option">
+            <div data-value="option1" className="option">
                 {stage.characters[0]}
             </div>
-            <div data-value="option2" className="character_option">
+            <div data-value="option2" className="option">
                 {stage.characters[1]}
             </div>
-            <div data-value="option3" className="character_option">
+            <div data-value="option3" className="option">
                 {stage.characters[2]}
             </div>
         </div>
