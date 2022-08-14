@@ -14,7 +14,7 @@ interface StagesInterface {
 const App: FC = () => {
     const stages: StagesInterface = {
         1: {
-            characters: [],
+            characters: ["char1", "char2", "char3"],
         },
     };
 
@@ -22,7 +22,7 @@ const App: FC = () => {
         <>
             <Cursor />
             <Marker />
-            <Dropdown />
+            <Dropdown stage={stages[1]} />
         </>
     );
 };

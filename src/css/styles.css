@@ -55,3 +55,31 @@ body {
         transform: translate(-50%, -50%) rotate(360deg);
     }
 }
+
+.characters_dropdown {
+    display: inline-block;
+
+    position: absolute;
+    pointer-events: none;
+
+    border: 2px solid black;
+    pointer-events: none;
+    visibility: hidden;
+
+    text-align: center;
+}
+
+.characters_dropdown.active {
+    visibility: visible;
+    pointer-events: all;
+}
+
+.character_option {
+    padding: 5px;
+    font-weight: bold;
+}
+
+.character_option:not(:last-child) {
+    border-bottom: 2px solid blue;
+    padding: 5px;
+}
