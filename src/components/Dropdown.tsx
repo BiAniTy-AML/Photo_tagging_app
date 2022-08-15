@@ -3,6 +3,10 @@ import { FC, useEffect, useRef, useState } from "react";
 interface Props {
     stage: {
         characters: string[];
+        bg_img: {
+            path: string;
+            name: string;
+        };
     };
 }
 
@@ -11,6 +15,8 @@ const Dropdown: FC<Props> = ({ stage }) => {
         x: 0,
         y: 0,
     });
+
+    const background = require(`../stages/${stage.bg_img.name}`);
 
     const [active, set_active] = useState(false);
 
@@ -49,27 +55,27 @@ const Dropdown: FC<Props> = ({ stage }) => {
 
         // Checks if the "dropdown" will appear too close to the end of the screen
         switch (true) {
-            case e.clientX + div_width + 40 >= vw &&
-                e.clientY + div_height + 20 >= vh:
-                x = e.clientX - (40 + div_width);
-                y = e.clientY - (20 + div_height);
+            case e.pageX + div_width + 40 >= vw &&
+                e.pageY + div_height + 20 >= vh:
+                x = e.pageX - (40 + div_width);
+                y = e.pageY - (20 + div_height);
                 break;
 
             // Too far left
-            case e.clientX + div_width + 40 >= vw:
-                x = e.clientX - (40 + div_width);
-                y = e.clientY + 20;
+            case e.pageX + div_width + 40 >= vw:
+                x = e.pageX - (40 + div_width);
+                y = e.pageY + 20;
                 break;
 
             // Lower than the screen
-            case e.clientY + div_height + 20 >= vh:
-                x = e.clientX + 40;
-                y = e.clientY - (20 + div_height);
+            case e.pageY + div_height + 20 >= vh:
+                x = e.pageX + 40;
+                y = e.pageY - (20 + div_height);
                 break;
 
             default:
-                x = e.clientX + 40;
-                y = e.clientY + 20;
+                x = e.pageX + 40;
+                y = e.pageY + 20;
                 break;
         }
 
@@ -105,21 +111,28 @@ const Dropdown: FC<Props> = ({ stage }) => {
     };
 
     return (
-        <div
-            className={`characters_dropdown ${active ? "active" : ""}`}
-            style={{ left: position.x, top: position.y }}
-            ref={options}
-        >
-            <div data-value="option1" className="option">
-                {stage.characters[0]}
+        <>
+            <img
+                src={background}
+                alt="background image"
+                className="background_image"
+            />{" "}
+            <div
+                className={`characters_dropdown ${active ? "active" : ""}`}
+                style={{ left: position.x, top: position.y }}
+                ref={options}
+            >
+                <div data-value="option1" className="option">
+                    {stage.characters[0]}
+                </div>
+                <div data-value="option2" className="option">
+                    {stage.characters[1]}
+                </div>
+                <div data-value="option3" className="option">
+                    {stage.characters[2]}
+                </div>
             </div>
-            <div data-value="option2" className="option">
-                {stage.characters[1]}
-            </div>
-            <div data-value="option3" className="option">
-                {stage.characters[2]}
-            </div>
-        </div>
+        </>
     );
 };
 

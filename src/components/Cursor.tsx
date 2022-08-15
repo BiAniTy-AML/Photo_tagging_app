@@ -30,7 +30,7 @@ const Cursor: FC<Props> = () => {
     };
 
     const on_mouse_move = (e: MouseEvent): void => {
-        set_position({ x: e.clientX, y: e.clientY });
+        set_position({ x: e.pageX, y: e.pageY });
 
         if (e.pageY - document.documentElement.scrollTop <= 10)
             set_hidden(true);

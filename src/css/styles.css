@@ -6,8 +6,7 @@
 }
 
 body {
-    background: linear-gradient(to left, purple, pink);
-    height: 100vh;
+    overflow: auto;
 }
 
 .cursor,
@@ -62,6 +61,7 @@ body {
     position: absolute;
     pointer-events: none;
 
+    background: white;
     border: 2px solid black;
     pointer-events: none;
     visibility: hidden;
@@ -91,4 +91,14 @@ body {
 .option:not(:last-child) {
     border-bottom: 2px solid blue;
     padding: 5px;
+}
+
+.background_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-width: 100vw;
+    min-height: 100vh;
 }
