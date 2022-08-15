@@ -1,13 +1,8 @@
 import { FC, useEffect, useRef, useState } from "react";
+import { Stage } from "../Utils/Interfaces";
 
 interface Props {
-    stage: {
-        characters: string[];
-        bg_img: {
-            path: string;
-            name: string;
-        };
-    };
+    stage: Stage;
 }
 
 const Dropdown: FC<Props> = ({ stage }) => {
@@ -15,8 +10,6 @@ const Dropdown: FC<Props> = ({ stage }) => {
         x: 0,
         y: 0,
     });
-
-    const background = require(`../stages/${stage.bg_img.name}`);
 
     const [active, set_active] = useState(false);
 
@@ -112,11 +105,6 @@ const Dropdown: FC<Props> = ({ stage }) => {
 
     return (
         <>
-            <img
-                src={background}
-                alt="background image"
-                className="background_image"
-            />{" "}
             <div
                 className={`characters_dropdown ${active ? "active" : ""}`}
                 style={{ left: position.x, top: position.y }}

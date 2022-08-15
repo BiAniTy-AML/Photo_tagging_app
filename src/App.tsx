@@ -4,16 +4,9 @@ import "./css/styles.css";
 import Cursor from "./components/Cursor";
 import Marker from "./components/Marker";
 import Dropdown from "./components/Dropdown";
+import Stage from "./components/Stage";
 
-interface StagesInterface {
-    1: {
-        characters: string[];
-        bg_img: {
-            path: string;
-            name: string;
-        };
-    };
-}
+import { StagesInterface } from "./Utils/Interfaces";
 
 const App: FC = () => {
     const stages: StagesInterface = {
@@ -27,11 +20,14 @@ const App: FC = () => {
         },
     };
 
+    const [current_stage, set_current_stage] = useState(stages[1]);
+
     return (
         <>
             <Cursor />
             <Marker />
-            <Dropdown stage={stages[1]} />
+
+            <Stage stage={current_stage} />
         </>
     );
 };
