@@ -110,15 +110,12 @@ const Dropdown: FC<Props> = ({ stage }) => {
                 style={{ left: position.x, top: position.y }}
                 ref={options}
             >
-                <div data-value="option1" className="option">
-                    {stage.characters[0]}
-                </div>
-                <div data-value="option2" className="option">
-                    {stage.characters[1]}
-                </div>
-                <div data-value="option3" className="option">
-                    {stage.characters[2]}
-                </div>
+                {" "}
+                {stage.targets.map((target, i) => (
+                    <div data-value={`option${i}`} className="option" key={i}>
+                        {target.name}
+                    </div>
+                ))}
             </div>
         </>
     );
