@@ -35,41 +35,68 @@ const decide_position = ({
 
         // Checks if the "dropdown" will appear too close to the end of the screen
 
+        const abs_offx = Math.abs(offset_x);
+        const abs_offy = Math.abs(offset_y);
+
         // If it is too far left
         if (e.pageX - (div_rect.width / 2 + -offset_x) <= min_x) {
-            offset_x < div_rect.width / 2
-                ? (x = e.pageX)
-                : (x = e.pageX - (offset_x + div_rect.width / 2));
+            if (abs_offx < div_rect.width / 2 && abs_offx >= 0) {
+                x = e.pageX;
+            } else if (abs_offx >= div_rect.width / 2) {
+                x = e.pageX - (offset_x + div_rect.width / 2);
+            }
 
             y = y;
         }
 
         // If it is too far right
         if (e.pageX + (div_rect.width / 2 + offset_x) >= max_x) {
-            offset_x < div_rect.width / 2
-                ? (x = e.pageX - div_rect.width)
-                : (x = e.pageX - (offset_x + div_rect.width / 2));
+            if (abs_offx < div_rect.width / 2 && abs_offx >= 0) {
+                x = e.pageX - div_rect.width;
+            } else if (abs_offx >= div_rect.width / 2) {
+                x = e.pageX - (offset_x + div_rect.width / 2);
+            }
 
             y = y;
         }
 
-        // Too far up
         if (e.pageY - (div_rect.width / 2 + -offset_y) <= min_y) {
-            offset_y < div_rect.width / 2
-                ? (y = e.pageY)
-                : (y = e.pageY - (offset_y + div_rect.width / 2));
+            if (abs_offy < div_rect.width / 2 && abs_offy >= 0) {
+                y = e.pageY;
+            } else if (abs_offy >= div_rect.width / 2) {
+                y = e.pageY - (offset_y + div_rect.width / 2);
+            }
 
             x = x;
         }
 
-        // Or too far down
         if (e.pageY + (div_rect.width / 2 + offset_y) >= max_y) {
-            offset_y < div_rect.width / 2
-                ? (y = e.pageY - div_rect.width)
-                : (y = e.pageY - (offset_y + div_rect.width / 2));
+            if (abs_offy < div_rect.width / 2 && abs_offy >= 0) {
+                y = e.pageY - div_rect.width;
+            } else if (abs_offy >= div_rect.width / 2) {
+                y = e.pageY - (offset_y + div_rect.width / 2);
+            }
 
             x = x;
         }
+
+        // Too far up
+        //   if (e.pageY - (div_rect.height / 2 + -offset_y) <= min_y) {
+        //       -offset_y < div_rect.height / 2 && -offset_y >= 0
+        //           ? (y = e.pageY)
+        //           : (y = e.pageY - (offset_y + div_rect.height / 2));
+
+        //       x = x;
+        //   }
+
+        //   // Or too far down
+        //   if (e.pageY + (div_rect.height / 2 + offset_y) >= max_y) {
+        //       offset_y < div_rect.height / 2 && offset_y >= 0
+        //           ? (y = e.pageY - div_rect.height)
+        //           : (y = e.pageY - (offset_y + div_rect.height / 2));
+
+        //       x = x;
+        //   }
     } else {
         max_x = parent_rect.right - div_rect.width + window.scrollX;
         max_y = parent_rect.bottom - div_rect.height + window.scrollY;

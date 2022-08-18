@@ -58,8 +58,8 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
             parent: container.current!,
             actual_div: result.current!,
             when_out: "change",
-            // offset_x: 150,
-            // offset_y: -150,
+            offset_x: 200,
+            offset_y: -200,
         });
 
         set_lens_position(coordinates_lens);
