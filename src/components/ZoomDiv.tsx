@@ -1,5 +1,15 @@
-import { FC, RefObject, useEffect, useRef, useState } from "react";
+import {
+    Dispatch,
+    FC,
+    RefObject,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+
 import { ResultInfo } from "../Utils/Interfaces";
+
 import { decide_position } from "../Utils/Utils";
 
 interface Props {

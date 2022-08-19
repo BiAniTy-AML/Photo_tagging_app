@@ -10,7 +10,9 @@ const decide_position = ({
     toggle_on_leave_parent,
 }: DecidePositions<boolean>): { x: number; y: number } => {
     const parent_rect = parent.getBoundingClientRect();
-    const div_rect = actual_div.getBoundingClientRect();
+    const div_rect = actual_div?.getBoundingClientRect();
+
+    if (!div_rect || !parent_rect) return { x: 0, y: 0 };
 
     let variable = toggle_on_leave_parent?.variable;
     const from = toggle_on_leave_parent?.from;

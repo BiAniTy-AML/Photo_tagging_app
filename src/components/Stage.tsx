@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import { Stage as Stg } from "../Utils/Interfaces";
 import Dropdown from "./Dropdown";
@@ -13,10 +13,32 @@ const Stage: FC<Props> = ({ stage }) => {
     const bg_image = useRef<any>(null);
     const container = useRef<HTMLDivElement>(null);
 
+    const [visible, set_visible] = useState(true);
+
+    useEffect(() => {
+        document.addEventListener("keydown", (e) => a(e));
+
+        return () => document.removeEventListener("keydown", (e) => a(e));
+    });
+
+    const a = (e: KeyboardEvent) => {
+        if (e.key === "a") console.log(visible);
+    };
+
     return (
         <div className="main_content">
             <div className="top_bar">
-                <div className="challenge">Find them!</div>
+                <div className="challenge">
+                    <p className="">Find them!</p>
+                    <div className="options">
+                        <button
+                            className={`toggle_lens ${visible ? "on" : "off"}`}
+                            onClick={() => set_visible(!visible)}
+                        >
+                            Lens
+                        </button>
+                    </div>
+                </div>
                 <div className="targets">
                     {stage.targets.map((target, i) => {
                         const image = require(`../images/stages/${stage.name}/${target.image}`);
@@ -41,7 +63,11 @@ const Stage: FC<Props> = ({ stage }) => {
                     className="background_image"
                     ref={bg_image}
                 />
-                <ZoomDiv container={container} image={bg_image} />
+                {visible ? (
+                    <ZoomDiv container={container} image={bg_image} />
+                ) : (
+                    <></>
+                )}
             </div>
 
             <Dropdown stage={stage} />

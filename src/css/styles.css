@@ -126,8 +126,36 @@ body {
 }
 
 .challenge {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2px;
+}
+
+.challenge p {
     font-weight: bold;
     font-size: 2rem;
+}
+
+.challenge .toggle_lens {
+    border-radius: 15px;
+    outline: 1px solid purple;
+    border: none;
+    padding: 3px 10px;
+    font-weight: bold;
+    background: white;
+    cursor: pointer;
+}
+
+.toggle_lens.on {
+    background: rgb(0, 255, 0, 0.5);
+}
+
+.toggle_lens.off {
+    background: rgb(255, 0, 0, 0.5);
+}
+
+.challenge .toggle_lens:hover {
+    background: #ddd;
 }
 
 .targets {
