@@ -36,7 +36,7 @@ const Stage: FC<Props> = ({ stage }) => {
 
             <div className="bg_container zoom_container" ref={container}>
                 <img
-                    // src={background}
+                    src={background}
                     alt="background image"
                     className="background_image"
                     ref={bg_image}

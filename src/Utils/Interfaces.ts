@@ -33,4 +33,10 @@ interface DecidePositions<T = boolean> {
     };
 }
 
-export type { Stage, StagesInterface, DecidePositions };
+interface ResultInfo {
+    fx: number;
+    fy: number;
+    coordinates_lens: { x: number; y: number };
+}
+
+export type { Stage, StagesInterface, DecidePositions, ResultInfo };

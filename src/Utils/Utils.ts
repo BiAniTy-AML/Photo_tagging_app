@@ -60,6 +60,7 @@ const decide_position = ({
             y = y;
         }
 
+        // Too far up
         if (e.pageY - (div_rect.width / 2 + -offset_y) <= min_y) {
             if (abs_offy < div_rect.width / 2 && abs_offy >= 0) {
                 y = e.pageY;
@@ -70,6 +71,7 @@ const decide_position = ({
             x = x;
         }
 
+        // Or too far down
         if (e.pageY + (div_rect.width / 2 + offset_y) >= max_y) {
             if (abs_offy < div_rect.width / 2 && abs_offy >= 0) {
                 y = e.pageY - div_rect.width;
@@ -79,24 +81,6 @@ const decide_position = ({
 
             x = x;
         }
-
-        // Too far up
-        //   if (e.pageY - (div_rect.height / 2 + -offset_y) <= min_y) {
-        //       -offset_y < div_rect.height / 2 && -offset_y >= 0
-        //           ? (y = e.pageY)
-        //           : (y = e.pageY - (offset_y + div_rect.height / 2));
-
-        //       x = x;
-        //   }
-
-        //   // Or too far down
-        //   if (e.pageY + (div_rect.height / 2 + offset_y) >= max_y) {
-        //       offset_y < div_rect.height / 2 && offset_y >= 0
-        //           ? (y = e.pageY - div_rect.height)
-        //           : (y = e.pageY - (offset_y + div_rect.height / 2));
-
-        //       x = x;
-        //   }
     } else {
         max_x = parent_rect.right - div_rect.width + window.scrollX;
         max_y = parent_rect.bottom - div_rect.height + window.scrollY;
