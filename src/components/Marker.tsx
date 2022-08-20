@@ -35,6 +35,7 @@ const Marker: FC<Props> = ({ top_bar }) => {
             const x = e.pageX;
             const y = e.pageY;
 
+            // TODO: make it so it no longer activates out of the container element
             const border = top_rect!.bottom + window.scrollY;
 
             if (y >= border) set_position({ x, y });

@@ -46,20 +46,18 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
 
     const add_event_listeners = (): void => {
         document.addEventListener("mousemove", on_mouse_move);
+        document.addEventListener("click", on_click);
     };
+
     const remove_event_listeners = (): void => {
-        document.addEventListener("mousemove", on_mouse_move);
+        document.removeEventListener("mousemove", on_mouse_move);
+        document.removeEventListener("click", on_click);
     };
 
-    useEffect(() => {
-        add_event_listeners();
-        get_ref_data();
-
-        return () => remove_event_listeners();
-    }, [result_info]);
-
-    const on_mouse_move = (e: MouseEvent) => {
-        const coordinates_lens = decide_position({
+    const position_divs = (
+        e: MouseEvent
+    ): { lens: { x: number; y: number }; res: { x: number; y: number } } => {
+        const coord_lens = decide_position({
             e,
             parent: container.current!,
             actual_div: lens.current!,
@@ -71,6 +69,54 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
             },
         });
 
+        const coord_result = decide_position({
+            e,
+            parent: container.current!,
+            actual_div: result.current!,
+            when_out: "change",
+            offset_x: 200,
+            offset_y: -200,
+        });
+
+        return {
+            lens: coord_lens,
+            res: coord_result,
+        };
+    };
+
+    let select_click = true;
+
+    const on_click = (e: MouseEvent) => {
+        if (select_click) {
+            document.removeEventListener("mousemove", on_mouse_move);
+
+            set_hidden(true);
+            select_click = false;
+            return;
+        }
+
+        document.addEventListener("mousemove", on_mouse_move);
+
+        set_hidden(false);
+        select_click = true;
+
+        const positions = position_divs(e);
+
+        set_lens_position(positions.lens);
+        set_result_position(positions.res);
+    };
+
+    useEffect(() => {
+        add_event_listeners();
+        get_ref_data();
+
+        return () => remove_event_listeners();
+    }, [result_info]);
+
+    const on_mouse_move = (e: MouseEvent) => {
+        const positions = position_divs(e);
+
+        const coordinates_lens = positions.lens;
         let fx: number = res_rect.width / lens_rect.width;
         let fy: number = res_rect.height / lens_rect.height;
 
@@ -97,14 +143,7 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
 
         set_result_info(res);
 
-        const coordinates_result = decide_position({
-            e,
-            parent: container.current!,
-            actual_div: result.current!,
-            when_out: "change",
-            offset_x: 200,
-            offset_y: -200,
-        });
+        const coordinates_result = positions.res;
 
         set_lens_position(coordinates_lens);
 
