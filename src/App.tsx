@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import "./css/styles.css";
 
 import Cursor from "./components/Cursor";
-import Marker from "./components/Marker";
 import Stage from "./components/Stage";
 
 import { StagesInterface } from "./Utils/Interfaces";
@@ -29,7 +28,6 @@ const App: FC = () => {
     return (
         <>
             <Cursor />
-            <Marker />
 
             <Stage stage={current_stage} />
         </>

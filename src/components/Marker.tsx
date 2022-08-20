@@ -1,8 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, RefObject, useEffect, useState } from "react";
 
-interface Props {}
+interface Props {
+    top_bar: RefObject<HTMLDivElement>;
+}
 
-const Marker: FC<Props> = () => {
+const Marker: FC<Props> = ({ top_bar }) => {
     const [active, set_active] = useState(false);
     let select_click = false;
 
@@ -11,8 +13,11 @@ const Marker: FC<Props> = () => {
         y: 0,
     });
 
+    let top_rect: DOMRect | null;
+
     useEffect(() => {
         add_event_listeners();
+        top_rect = top_bar.current!.getBoundingClientRect();
 
         return () => remove_event_listeners();
     }, []);
@@ -27,7 +32,12 @@ const Marker: FC<Props> = () => {
 
     const on_select_click = (e: MouseEvent): void => {
         if (!select_click) {
-            set_position({ x: e.pageX, y: e.pageY });
+            const x = e.pageX;
+            const y = e.pageY;
+
+            const border = top_rect!.bottom + window.scrollY;
+
+            if (y >= border) set_position({ x, y });
 
             set_active(true);
             select_click = true;

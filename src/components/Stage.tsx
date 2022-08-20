@@ -3,6 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Stage as Stg } from "../Utils/Interfaces";
 import Dropdown from "./Dropdown";
 import ZoomDiv from "./ZoomDiv";
+import Marker from "../components/Marker";
 
 interface Props {
     stage: Stg;
@@ -14,6 +15,7 @@ const Stage: FC<Props> = ({ stage }) => {
     const container = useRef<HTMLDivElement>(null);
 
     const [visible, set_visible] = useState(true);
+    const top_bar = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         document.addEventListener("keydown", (e) => a(e));
@@ -27,7 +29,7 @@ const Stage: FC<Props> = ({ stage }) => {
 
     return (
         <div className="main_content">
-            <div className="top_bar">
+            <div className="top_bar" ref={top_bar}>
                 <div className="challenge">
                     <p className="">Find them!</p>
                     <div className="options">
@@ -70,7 +72,9 @@ const Stage: FC<Props> = ({ stage }) => {
                 )}
             </div>
 
-            <Dropdown stage={stage} />
+            <Dropdown stage={stage} top_bar={top_bar} />
+
+            <Marker top_bar={top_bar} />
         </div>
     );
 };

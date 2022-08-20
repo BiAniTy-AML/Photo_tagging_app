@@ -1,15 +1,18 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, RefObject, useEffect, useRef, useState } from "react";
 import { Stage } from "../Utils/Interfaces";
 
 interface Props {
     stage: Stage;
+    top_bar: RefObject<HTMLDivElement>;
 }
 
-const Dropdown: FC<Props> = ({ stage }) => {
+const Dropdown: FC<Props> = ({ stage, top_bar }) => {
     const [position, set_position] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
     });
+
+    let top_rect: DOMRect | null;
 
     const [active, set_active] = useState(false);
 
@@ -17,6 +20,7 @@ const Dropdown: FC<Props> = ({ stage }) => {
 
     useEffect(() => {
         add_event_listeners();
+        top_rect = top_bar.current!.getBoundingClientRect();
 
         return () => remove_event_listeners();
     }, []);
@@ -85,7 +89,9 @@ const Dropdown: FC<Props> = ({ stage }) => {
         const coordinates = decide_position(e);
 
         if (!is_visible) {
-            set_position(coordinates);
+            const border = top_rect!.bottom + window.scrollY;
+
+            if (e.pageY >= border) set_position(coordinates);
 
             set_active(true);
             is_visible = true;
