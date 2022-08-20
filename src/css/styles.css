@@ -40,6 +40,8 @@ body {
     border: 5px dotted gray;
     transition: none;
     display: none;
+
+    background: rgb(255, 255, 255, 0.2);
 }
 
 .marker.active {

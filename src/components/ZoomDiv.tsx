@@ -87,7 +87,10 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
     let select_click = true;
 
     const on_click = (e: MouseEvent) => {
-        if (select_click) {
+        // !if user activates lens while dropdown is open, they get out of sync
+        if (e.pageY <= cont_rect!.top + window.scrollY) return;
+
+        if (select_click && !hidden) {
             document.removeEventListener("mousemove", on_mouse_move);
 
             set_hidden(true);

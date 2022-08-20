@@ -88,10 +88,12 @@ const Dropdown: FC<Props> = ({ stage, top_bar }) => {
 
         const coordinates = decide_position(e);
 
-        if (!is_visible) {
-            const border = top_rect!.bottom + window.scrollY;
+        const border = top_rect!.bottom + window.scrollY;
 
-            if (e.pageY >= border) set_position(coordinates);
+        if (e.pageY <= border) return;
+
+        if (!is_visible) {
+            set_position(coordinates);
 
             set_active(true);
             is_visible = true;
