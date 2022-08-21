@@ -17,16 +17,6 @@ const Stage: FC<Props> = ({ stage }) => {
     const [visible, set_visible] = useState(true);
     const top_bar = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        document.addEventListener("keydown", (e) => a(e));
-
-        return () => document.removeEventListener("keydown", (e) => a(e));
-    });
-
-    const a = (e: KeyboardEvent) => {
-        if (e.key === "a") console.log(visible);
-    };
-
     return (
         <div className="main_content">
             <div className="top_bar" ref={top_bar}>

@@ -88,7 +88,11 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
 
     const on_click = (e: MouseEvent) => {
         // !if user activates lens while dropdown is open, they get out of sync
-        if (e.pageY <= cont_rect!.top + window.scrollY) return;
+        if (
+            e.pageY <=
+            container.current!.getBoundingClientRect().top + window.scrollY
+        )
+            return;
 
         if (select_click && !hidden) {
             document.removeEventListener("mousemove", on_mouse_move);
@@ -113,6 +117,10 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
         add_event_listeners();
         get_ref_data();
 
+        // const { x, y } = lens_position;
+
+        // if (x === 0 || y === 0) set_hidden(true);
+
         return () => remove_event_listeners();
     }, [result_info]);
 
@@ -125,7 +133,7 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
 
         const container_rect = container.current!.getBoundingClientRect();
 
-        // * No matter what i do, cont_rec is always null
+        // ? No matter what i do, cont_rec is always null
         // const cl = {
         //     x: coordinates_lens.x - (cont_rect!.left + window.scrollX),
 
@@ -158,6 +166,7 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
             <div
                 ref={result}
                 style={{
+                    display: `${result_position.y ? "" : "none"}`,
                     top: result_position.y,
                     left: result_position.x,
                     backgroundImage: `url(${
@@ -177,6 +186,7 @@ const ZoomDiv: FC<Props> = ({ container, image }) => {
             <div
                 ref={lens}
                 style={{
+                    display: `${lens_position.y ? "" : "none"}`,
                     top: lens_position.y,
                     left: lens_position.x,
                 }}
