@@ -4,15 +4,17 @@ import { Stage } from "../Utils/Interfaces";
 interface Props {
     stage: Stage;
     top_bar: RefObject<HTMLDivElement>;
+    container: RefObject<HTMLDivElement>;
 }
 
-const Dropdown: FC<Props> = ({ stage, top_bar }) => {
+const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
     const [position, set_position] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
     });
 
     let top_rect: DOMRect | null;
+    let cont_rect: DOMRect | null;
 
     const [active, set_active] = useState(false);
 
@@ -21,16 +23,23 @@ const Dropdown: FC<Props> = ({ stage, top_bar }) => {
     useEffect(() => {
         add_event_listeners();
         top_rect = top_bar.current!.getBoundingClientRect();
+        cont_rect = container.current!.getBoundingClientRect();
 
         return () => remove_event_listeners();
     }, []);
 
     const add_event_listeners = (): void => {
         document.addEventListener("click", on_select_click);
+        // container.current!.addEventListener("click", on_answer);
     };
 
     const remove_event_listeners = (): void => {
         document.removeEventListener("click", on_select_click);
+        // container.current!.removeEventListener("click", on_answer);
+    };
+
+    const on_answer = (e: MouseEvent) => {
+        console.log(e.pageY);
     };
 
     const decide_position = (e: MouseEvent): { x: number; y: number } => {
@@ -88,7 +97,7 @@ const Dropdown: FC<Props> = ({ stage, top_bar }) => {
 
         const coordinates = decide_position(e);
 
-        const border = top_rect!.bottom + window.scrollY;
+        const border = top_rect!.bottom;
 
         if (e.pageY <= border) return;
 

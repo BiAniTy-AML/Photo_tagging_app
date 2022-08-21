@@ -35,7 +35,9 @@ const Marker: FC<Props> = ({ top_bar }) => {
         const y = e.pageY;
 
         // TODO: make it so it no longer activates out of the container element
-        const border = top_rect!.bottom + window.scrollY;
+        // In the docs, the positions in getBoundingClientRect are relative to the viewport,
+        // however, here it seems to be absolute(relative to the whole webcontent)
+        const border = top_rect!.bottom;
 
         if (y <= border) return;
 

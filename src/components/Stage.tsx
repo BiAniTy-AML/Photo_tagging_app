@@ -62,7 +62,7 @@ const Stage: FC<Props> = ({ stage }) => {
                 )}
             </div>
 
-            <Dropdown stage={stage} top_bar={top_bar} />
+            <Dropdown stage={stage} top_bar={top_bar} container={container} />
 
             <Marker top_bar={top_bar} />
         </div>
