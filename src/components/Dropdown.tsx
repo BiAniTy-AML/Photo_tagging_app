@@ -140,12 +140,12 @@ const Dropdown: FC<Props> = ({
             const target_obj =
                 stage.targets.find(({ name }) => name === option) || null;
 
-            const index = stage.targets.indexOf(target_obj!);
+            if (!target_obj) return;
+
+            const index = stage.targets.indexOf(target_obj);
 
             const targets = stage.targets;
-            targets[index] = target_obj || targets[index];
-
-            if (!target_obj) return;
+            targets[index] = target_obj;
 
             if (
                 selected_coords.x >= target_obj.answers.min_x &&
@@ -164,6 +164,9 @@ const Dropdown: FC<Props> = ({
                         ...prev_stage,
                     };
                 });
+
+                const found_all = stage.targets.every(({ found }) => found);
+                if (found_all) alert("You found all of them! Congrats!!!");
             }
         }
     };
