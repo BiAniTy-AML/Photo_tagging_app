@@ -1,13 +1,27 @@
-import { FC, RefObject, useEffect, useRef, useState } from "react";
+import {
+    Dispatch,
+    FC,
+    RefObject,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { Stage } from "../Utils/Interfaces";
 
 interface Props {
     stage: Stage;
     top_bar: RefObject<HTMLDivElement>;
     container: RefObject<HTMLDivElement>;
+    set_current_state: Dispatch<SetStateAction<Stage>>;
 }
 
-const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
+const Dropdown: FC<Props> = ({
+    stage,
+    top_bar,
+    container,
+    set_current_state,
+}) => {
     const [position, set_position] = useState<{ x: number; y: number }>({
         x: 0,
         y: 0,
@@ -30,12 +44,10 @@ const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
 
     const add_event_listeners = (): void => {
         document.addEventListener("click", on_select_click);
-        // container.current!.addEventListener("click", on_answer);
     };
 
     const remove_event_listeners = (): void => {
         document.removeEventListener("click", on_select_click);
-        // container.current!.removeEventListener("click", on_answer);
     };
 
     const on_answer = (e: MouseEvent) => {
@@ -90,6 +102,8 @@ const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
 
     let is_visible = false;
 
+    let selected_coords: { x: number; y: number };
+
     const on_select_click = (e: MouseEvent): void => {
         const target = e.target as HTMLDivElement;
 
@@ -97,11 +111,16 @@ const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
 
         const coordinates = decide_position(e);
 
+        let bg_x: number = e.pageX - cont_rect!.left;
+        let bg_y: number = e.pageY - cont_rect!.top;
+
         const border = top_rect!.bottom;
 
         if (e.pageY <= border) return;
 
         if (!is_visible) {
+            selected_coords = { x: bg_x, y: bg_y };
+
             set_position(coordinates);
 
             set_active(true);
@@ -113,11 +132,40 @@ const Dropdown: FC<Props> = ({ stage, top_bar, container }) => {
 
         is_visible = false;
         set_active(false);
-    };
 
-    const on_mouse_move = (e: MouseEvent): void => {
-        const coordinates = decide_position(e);
-        set_position(coordinates);
+        // Gets the options the user selected
+        if (target.classList.contains("option")) {
+            const option = target.textContent;
+
+            const target_obj =
+                stage.targets.find(({ name }) => name === option) || null;
+
+            const index = stage.targets.indexOf(target_obj!);
+
+            const targets = stage.targets;
+            targets[index] = target_obj || targets[index];
+
+            if (!target_obj) return;
+
+            if (
+                selected_coords.x >= target_obj.answers.min_x &&
+                selected_coords.x <= target_obj.answers.max_x &&
+                selected_coords.y >= target_obj.answers.min_y &&
+                selected_coords.y <= target_obj.answers.max_y &&
+                !target_obj.found
+            ) {
+                target_obj.found = true;
+
+                alert(`You found ${target_obj.name}!`);
+
+                // Updates the stage state so the components change
+                set_current_state((prev_stage) => {
+                    return {
+                        ...prev_stage,
+                    };
+                });
+            }
+        }
     };
 
     return (

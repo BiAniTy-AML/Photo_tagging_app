@@ -6,16 +6,23 @@ interface StagesInterface {
 
 interface Stage {
     name: string;
-    targets: Targets[];
+    targets: Target[];
     bg_img: {
         path: string;
         name: string;
     };
 }
 
-interface Targets {
+interface Target {
     name: string;
     image: string;
+    answers: {
+        min_x: number;
+        max_x: number;
+        min_y: number;
+        max_y: number;
+    };
+    found: boolean;
 }
 
 interface DecidePositions<T = boolean> {

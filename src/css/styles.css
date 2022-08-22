@@ -176,10 +176,13 @@ body {
     font-weight: bold;
 }
 
-.zoom_container {
-    /* position: relative; */
-    border: 2px solid purple;
+.target .name.found {
+    color: green;
 }
+
+/* .zoom_container {
+    position: relative;
+} */
 
 .zoom_lens {
     position: absolute;
