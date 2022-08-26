@@ -7,6 +7,7 @@ import Stage from "./components/Stage";
 import { StagesInterface } from "./Utils/Interfaces";
 
 const App: FC = () => {
+    // All the stages(levels) of the app
     const stages: StagesInterface = {
         1: {
             name: "stage1",
@@ -53,6 +54,7 @@ const App: FC = () => {
         },
     };
 
+    // The stage the user is currently playing
     const [current_stage, set_current_stage] = useState(stages[1]);
 
     return (

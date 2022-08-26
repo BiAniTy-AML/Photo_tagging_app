@@ -1,68 +1,76 @@
 import { FC, RefObject, useEffect, useState } from "react";
 
 interface Props {
-    top_bar: RefObject<HTMLDivElement>;
+  top_bar: RefObject<HTMLDivElement>;
 }
 
 const Marker: FC<Props> = ({ top_bar }) => {
-    const [active, set_active] = useState(false);
-    let select_click = false;
+  // Whether the marker should be visible
+  const [active, set_active] = useState(false);
 
-    const [position, set_position] = useState<{ x: number; y: number }>({
-        x: 0,
-        y: 0,
-    });
+  // Assisting in determining if the click is for selecting a location in the image
+  let select_click = false;
 
-    let top_rect: DOMRect | null;
+  const [position, set_position] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
 
-    useEffect(() => {
-        add_event_listeners();
-        top_rect = top_bar.current!.getBoundingClientRect();
+  // Top bar info
+  let top_rect: DOMRect | null;
 
-        return () => remove_event_listeners();
-    }, []);
+  useEffect(() => {
+    add_event_listeners();
+    top_rect = top_bar.current!.getBoundingClientRect();
 
-    const add_event_listeners = (): void => {
-        document.addEventListener("click", on_select_click);
-    };
+    return () => remove_event_listeners();
+  }, []);
 
-    const remove_event_listeners = (): void => {
-        document.removeEventListener("click", on_select_click);
-    };
+  const add_event_listeners = (): void => {
+    document.addEventListener("click", on_select_click);
+  };
 
-    const on_select_click = (e: MouseEvent): void => {
-        const x = e.pageX;
-        const y = e.pageY;
+  const remove_event_listeners = (): void => {
+    document.removeEventListener("click", on_select_click);
+  };
 
-        // TODO: make it so it no longer activates out of the container element
-        // In the docs, the positions in getBoundingClientRect are relative to the viewport,
-        // however, here it seems to be absolute(relative to the whole webcontent)
-        const border = top_rect!.bottom;
+  // When the user clicks in the page
+  const on_select_click = (e: MouseEvent): void => {
+    // Save the coordinates of where it was clicked
+    const x = e.pageX;
+    const y = e.pageY;
 
-        if (y <= border) return;
+    // TODO: make it so it no longer activates out of the container element, instead of just the top bar
 
-        if (!select_click) {
-            set_position({ x, y });
+    // In the docs, the positions in getBoundingClientRect are relative to the viewport,
+    // however, here it seems to be absolute(relative to the whole webcontent)
+    const border = top_rect!.bottom;
 
-            set_active(true);
-            select_click = true;
-            return;
-        }
+    if (y <= border) return;
 
-        set_position({ x: 0, y: 0 });
+    // If the marker is already showing
+    if (!select_click) {
+      set_position({ x, y });
 
-        set_active(false);
-        select_click = false;
-    };
+      set_active(true);
+      select_click = true;
+      return;
+    }
 
-    return (
-        <>
-            <div
-                className={`marker ${active ? "active" : ""}`}
-                style={{ left: position.x, top: position.y }}
-            ></div>
-        </>
-    );
+    set_position({ x: 0, y: 0 });
+
+    set_active(false);
+    select_click = false;
+  };
+
+  return (
+    <>
+      <div
+        className={`marker ${active ? "active" : ""}`}
+        style={{ left: position.x, top: position.y }}
+      ></div>
+    </>
+  );
 };
 
 export default Marker;

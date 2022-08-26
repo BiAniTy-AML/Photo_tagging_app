@@ -1,11 +1,4 @@
-import {
-    Dispatch,
-    FC,
-    SetStateAction,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 
 import { Stage as Stg } from "../Utils/Interfaces";
 import Dropdown from "./Dropdown";
@@ -18,20 +11,18 @@ interface Props {
 }
 
 const Stage: FC<Props> = ({ stage, set_current_state }) => {
+    // The background image and its DOM element
     const background = require(`../images/stages/${stage.name}/${stage.bg_img.name}`);
     const bg_image = useRef<any>(null);
+
+    // The backgound image container
     const container = useRef<HTMLDivElement>(null);
 
+    // Whether the lens and result should be displayed
     const [visible, set_visible] = useState(true);
+
+    // The top bar element
     const top_bar = useRef<HTMLDivElement>(null);
-
-    const [internal_state, set_internal_state] = useState(stage);
-    const [previous_value, set_previous_value] = useState<Stg | null>(null);
-
-    if (stage !== previous_value) {
-        set_internal_state(stage);
-        set_previous_value(stage);
-    }
 
     return (
         <div className="main_content">
@@ -48,7 +39,7 @@ const Stage: FC<Props> = ({ stage, set_current_state }) => {
                     </div>
                 </div>
                 <div className="targets">
-                    {internal_state.targets.map((target, i) => {
+                    {stage.targets.map((target, i) => {
                         const image = require(`../images/stages/${stage.name}/${target.image}`);
 
                         return (
@@ -74,7 +65,7 @@ const Stage: FC<Props> = ({ stage, set_current_state }) => {
             <div className="bg_container zoom_container" ref={container}>
                 <img
                     src={background}
-                    alt="background image"
+                    alt="background"
                     className="background_image"
                     ref={bg_image}
                 />
